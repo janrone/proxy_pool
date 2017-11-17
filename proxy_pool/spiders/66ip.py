@@ -18,10 +18,10 @@ class SixSixIpSpider(scrapy.Spider):
         iplist = response.xpath('//*[@id="footer"]/div/table//tr')
 
         for x in iplist[1:-1]:
-            ips = x.xpath('td[1]/text()').extract()
-            ports = x.xpath('td[2]/text()').extract()
-            protocols = x.xpath('td[3]/text()').extract()
-            types = x.xpath('td[4]/text()').extract()
+            ips = x.xpath('td[1]/text()').extract()[0]
+            ports = x.xpath('td[2]/text()').extract()[0]
+            types = x.xpath('td[3]/text()').extract()[0]
+            protocols = x.xpath('td[4]/text()').extract()[0]
 
             yield ProxyPoolItem({
                 'ip': ips,
