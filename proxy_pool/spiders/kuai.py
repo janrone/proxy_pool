@@ -22,6 +22,7 @@ class KuaiSpider(scrapy.Spider):
                 item['port'] = data[1]
                 item['types'] = data[2]
                 item['address'] = data[4]
+                item['website'] = 'www.kuaidaili.com'
                 yield item
             next_page = int(now_page) + 1
             next_url = 'http://www.kuaidaili.com/free/{}/{}/'.format(typee, next_page)
