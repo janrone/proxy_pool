@@ -4,7 +4,6 @@ import requests
 import re
 from proxy_pool.items import ProxyPoolItem
 
-
 class NianshaoSpider(scrapy.Spider):
     name = 'nianshao'
     allowed_domains = ['nianshao.me']
