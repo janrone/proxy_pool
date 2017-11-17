@@ -13,9 +13,9 @@ class NianshaoSpider(scrapy.Spider):
         pages=[]
         
         for i in range(1,3):
-            count = re.findall('</font>/(\d+)</strong>',requests.get('http://www.nianshao.me/?stype='+str(i)).text)[0]
+            count = re.findall('</font>/(\d+)</strong>',requests.get('http://www.nianshao.me/?stype={protocol_id}'.format(protocol_id=i)).text)[0]
             for j in range(1,(int(count)+1)):
-                url = 'http://www.nianshao.me/?stype='+str(i)+'&page='+str(j)
+                url = 'http://www.nianshao.me/?stype={protocol_id}&page={page}'.format(protocol_id=i,page=j)
                 page = scrapy.Request(url)
                 pages.append(page)
         return pages
