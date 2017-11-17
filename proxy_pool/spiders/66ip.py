@@ -20,13 +20,15 @@ class SixSixIpSpider(scrapy.Spider):
         for x in iplist[1:-1]:
             ips = x.xpath('td[1]/text()').extract()[0]
             ports = x.xpath('td[2]/text()').extract()[0]
-            types = x.xpath('td[3]/text()').extract()[0]
-            protocols = x.xpath('td[4]/text()').extract()[0]
+            protocols = 'HTTP'
+            address = x.xpath('td[3]/text()').extract()[0]
+            types = x.xpath('td[4]/text()').extract()[0]
 
             yield ProxyPoolItem({
                 'ip': ips,
                 'protocol': protocols,
                 'port': ports,
-                'types': types
+                'types': types,
+                'address':address
             })
 
