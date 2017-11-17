@@ -8,18 +8,24 @@ from proxy_pool.items import ProxyPoolItem
 class NianshaoSpider(scrapy.Spider):
     name = 'nianshao'
     allowed_domains = ['nianshao.me']
-    start_urls = []
-    http_url = 'http://www.nianshao.me/?stype=1'
-    https_url = 'http://www.nianshao.me/?stype=2'
-    http_count = re.findall('</font>/(\d+)</strong>',requests.get(http_url).text)[0]
-    #print(http_count)
-    https_count = re.findall('</font>/(\d+)</strong>',requests.get(https_url).text)[0]
-    #print(https_count)
-    # start_urls = ['http://www.nianshao.me/?stype=1&page=1']
-    for i in range(1,(int(http_count)+1)):
-        start_urls.append('http://www.nianshao.me/?stype=1&page='+str(i))
-    for i in range(1,(int(https_count)+1)):
-            start_urls.append('http://www.nianshao.me/?stype=2&page='+str(i))
+
+    def start_requests(self):
+        pages=[]
+        http_url = 'http://www.nianshao.me/?stype=1'
+        https_url = 'http://www.nianshao.me/?stype=2'
+        http_count = re.findall('</font>/(\d+)</strong>',requests.get(http_url).text)[0]
+        https_count = re.findall('</font>/(\d+)</strong>',requests.get(https_url).text)[0]
+        for i in range(1,(int(http_count)+1)):
+            url = 'http://www.nianshao.me/?stype=1&page='+str(i)
+            page = scrapy.Request(url)
+            pages.append(page)
+
+        for i in range(1,(int(https_count)+1)):
+            url = 'http://www.nianshao.me/?stype=2&page='+str(i)
+            page = scrapy.Request(url)
+            pages.append(page)
+
+        return pages
 
     def parse(self, response):
         ips = re.findall('<td style="WIDTH:110PX">(\d+\.\d+\.\d+\.\d+)</td>', response.text)
