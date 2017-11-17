@@ -16,6 +16,7 @@ class XicidailiSpider(scrapy.Spider):
         protocols = re.findall('<td>(HTTPS?)</td>', response.text)
         for ip, port, _type, protocol in zip(ips, ports, types, protocols):
             yield ProxyPoolItem({
+                'website': 'xicidaili',
                 'ip': ip,
                 'protocol': protocol,
                 'port': port,
