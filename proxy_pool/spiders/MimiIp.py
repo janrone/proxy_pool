@@ -46,5 +46,5 @@ class MimiipSpider(scrapy.Spider):
 
         if level == 1 and page_number is not None:
             url = response.url
-            for i in range(121, int(page_number) + 1):
+            for i in range(2, int(page_number) + 1):
                 yield scrapy.Request("{0}/{1}".format(url, i), meta={'level': 2})
