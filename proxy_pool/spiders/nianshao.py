@@ -10,13 +10,14 @@ class NianshaoSpider(scrapy.Spider):
                   "http://www.nianshao.me/?stype=2&page=1"]
 
     def parse(self, response):
-        try:
-            now_page, page_count = re.findall('<strong><font color="#49afcd">(\d+)</font>/(\d+)</strong>', response.text)[0]
-            ips = re.findall('<td style="WIDTH:110PX">(\d+\.\d+\.\d+\.\d+)</td>', response.text)
-            ports = re.findall('<td style="WIDTH:40PX">(\d+)</td>', response.text)
-            types = re.findall(u"<td style=\"WIDTH:55PX\">([\u4e00-\u9fa5]+)</td>",response.text)
-            addresses = re.findall(u"<td style=\"WIDTH:135PX\">([[\u4e00-\u9fa5]+)</td>", response.text)
-            protocols = re.findall('<td style="WIDTH:55PX">(HTTPS?)</td>', response.text)
+        page = re.findall('<strong><font color="#49afcd">(\d+)</font>/(\d+)</strong>', response.text)
+        ips = re.findall('<td style="WIDTH:110PX">(\d+\.\d+\.\d+\.\d+)</td>', response.text)
+        ports = re.findall('<td style="WIDTH:40PX">(\d+)</td>', response.text)
+        types = re.findall(u"<td style=\"WIDTH:55PX\">([\u4e00-\u9fa5]+)</td>",response.text)
+        addresses = re.findall(u"<td style=\"WIDTH:135PX\">([[\u4e00-\u9fa5]+)</td>", response.text)
+        protocols = re.findall('<td style="WIDTH:55PX">(HTTPS?)</td>', response.text)
+        if page:
+            now_page, count_all = page[0]
             for ip, port, typ, address, protocol in zip(ips, ports, types, addresses, protocols):
                 yield ProxyPoolItem({
                     'ip': ip,
@@ -29,5 +30,3 @@ class NianshaoSpider(scrapy.Spider):
             _next = int(now_page) + 1 
             _next_url = re.sub('page=(\d+)', "page="+str(_next), response.url)
             yield scrapy.Request(_next_url, self.parse)
-        except Exception as e:
-            pass
