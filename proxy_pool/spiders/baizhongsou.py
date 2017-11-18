@@ -17,4 +17,5 @@ class BaizhongsouSpider(scrapy.Spider):
             item['port'] = data[0].split(':')[1]
             item['address'] = data[1]
             item['website'] = 'baizhongsou.com'
+            item['types'] = '普通'
             yield item
