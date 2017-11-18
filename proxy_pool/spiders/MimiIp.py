@@ -10,15 +10,14 @@ class MimiipSpider(scrapy.Spider):
     allowed_domains = ["mimiip.com"]
 
     def start_requests(self):
-        yield scrapy.Request("http://www.mimiip.com/gngao", callback=self.parse, meta={'level': 1})
-        yield scrapy.Request("http://www.mimiip.com/gnpu", callback=self.parse, meta={'level': 1})
-        yield scrapy.Request("http://www.mimiip.com/gntou", callback=self.parse, meta={'level': 1})
-        yield scrapy.Request("http://www.mimiip.com/hw", callback=self.parse, meta={'level': 1})
+        yield scrapy.Request("http://www.mimiip.com/gngao", meta={'level': 1})
+        yield scrapy.Request("http://www.mimiip.com/gnpu", meta={'level': 1})
+        yield scrapy.Request("http://www.mimiip.com/gntou", meta={'level': 1})
+        yield scrapy.Request("http://www.mimiip.com/hw", meta={'level': 1})
 
     def parse(self, response):
 
         iplist = response.xpath('//table/tr')
-        # next_page = response.xpath("//a[@class='next_page']/@href").extract_first()
         page_number = response.xpath("//div[@class='pagination']/a[last()-1]/text()").extract_first()
         level = response.meta['level']
 
@@ -32,10 +31,11 @@ class MimiipSpider(scrapy.Spider):
                 'ip': ips,
                 'protocol': protocols,
                 'port': ports,
-                'types': types
+                'types': types,
+                'website': 'www.mimiip.com'
             })
 
         if level == 1 and page_number is not None:
             url = response.url
-            for i in range(2, int(page_number) + 1):
-                yield scrapy.Request("{0}/{1}".format(url, i), callback=self.parse, meta={'level': 2})
+            for i in range(1, int(page_number) + 1):
+                yield scrapy.Request("{0}/{1}".format(url, i), meta={'level': 2})
