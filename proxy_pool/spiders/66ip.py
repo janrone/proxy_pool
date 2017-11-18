@@ -4,14 +4,17 @@
 import scrapy
 from proxy_pool.items import ProxyPoolItem
 
+
 class SixSixIpSpider(scrapy.Spider):
     name = '66ip'
     allowed_domains = ['66ip.cn']
-    start_urls = []
-    for i in range(1, 32):
-        start_urls.append("http://www.66ip.cn/areaindex_"+str(i)+"/1.html")
-        start_urls.append("http://www.66ip.cn/areaindex_"+str(i)+"/2.html")
-        start_urls.append("http://www.66ip.cn/areaindex_"+str(i)+"/3.html")
+    start_urls = ["http://www.66ip.cn/areaindex_1/1.html"]
+
+    def start_requests(self):
+        for i in range(1, 35):
+            for j in range(1, 4):
+                yield scrapy.Request("http://www.66ip.cn/areaindex_{0}/{1}.html".format(i, j),
+                                     callback=self.parse)
 
     def parse(self, response):
 
@@ -29,6 +32,6 @@ class SixSixIpSpider(scrapy.Spider):
                 'protocol': protocols,
                 'port': ports,
                 'types': types,
-                'address':address
+                'address': address,
+                'website': 'www.66ip.cn'
             })
-
