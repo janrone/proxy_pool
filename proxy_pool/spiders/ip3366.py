@@ -7,10 +7,10 @@ from scrapy.http import Request
 class Ip3366Spider(scrapy.Spider):
     name = 'ip3366'
     allowed_domains = ['ip3366.net']
-    start_urls = ['http://www.ip3366.net/?stype=1',
-                  'http://www.ip3366.net/?stype=2',
-                  'http://www.ip3366.net/?stype=3',
-                  'http://www.ip3366.net/?stype=4']
+    start_urls = ['http://www.ip3366.net/free/?stype=1',
+                  'http://www.ip3366.net/free/?stype=2',
+                  'http://www.ip3366.net/free/?stype=3',
+                  'http://www.ip3366.net/free/?stype=4']
 
     def parse(self, response):
         info = response.xpath('//table[@class="table table-bordered table-striped"]/tbody/tr')
