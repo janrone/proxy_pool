@@ -8,7 +8,6 @@ from proxy_pool.items import ProxyPoolItem
 class SixSixIpSpider(scrapy.Spider):
     name = '66ip'
     allowed_domains = ['66ip.cn']
-    start_urls = ["http://www.66ip.cn/areaindex_1/1.html"]
 
     def start_requests(self):
         for i in range(1, 35):
