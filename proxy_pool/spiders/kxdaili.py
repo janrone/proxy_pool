@@ -6,7 +6,6 @@ from proxy_pool.items import ProxyPoolItem
 class KxdailiSpider(scrapy.Spider):
     name = 'kxdaili'
     allowed_domains = ['kxdaili.com']
-    start_urls = [""]
 
     def start_requests(self):
         for i in range(1, 3):
