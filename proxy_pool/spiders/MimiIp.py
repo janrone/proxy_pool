@@ -27,15 +27,24 @@ class MimiipSpider(scrapy.Spider):
             protocols = x.xpath('td[5]/text()').extract_first()
             types = x.xpath('td[4]/text()').extract_first()
 
+            province = x.xpath('td[3]/a[1]/text()').extract_first()
+            city = x.xpath('td[3]/a[2]/text()').extract_first()
+            address = ""
+            if city is not None:
+                address = province + city
+            else:
+                address = province
+
             yield ProxyPoolItem({
                 'ip': ips,
                 'protocol': protocols,
                 'port': ports,
                 'types': types,
+                'address': address,
                 'website': 'www.mimiip.com'
             })
 
         if level == 1 and page_number is not None:
             url = response.url
-            for i in range(1, int(page_number) + 1):
+            for i in range(121, int(page_number) + 1):
                 yield scrapy.Request("{0}/{1}".format(url, i), meta={'level': 2})
