@@ -23,5 +23,6 @@ class NianshaoSpider(scrapy.Spider):
                 'ip': ip,
                 'protocol': protocol,
                 'port': port,
-                'address': address
+                'address': address,
+                'website': 'www.nianshao.me'
             })
