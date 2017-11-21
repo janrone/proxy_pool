@@ -10,9 +10,7 @@ class XdailiSpider(scrapy.Spider):
     start_urls = ['http://www.xdaili.cn/ipagent//freeip/getFreeIps?page=1&rows=10']
 
     def parse(self, response):
-
         data = json.loads(response.body.decode('utf-8'))
-        print("data", data['RESULT']['rows'])
         if data :
              for x in data['RESULT']['rows'] :
                  item = ProxyPoolItem()
