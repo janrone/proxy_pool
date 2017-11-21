@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import bs4
 import string
 from scrapy import Selector
 from proxy_pool.items import ProxyPoolItem
@@ -8,7 +7,6 @@ from proxy_pool.items import ProxyPoolItem
 class GoubanjiaSpider(scrapy.Spider):
     name = 'goubanjia'
     allowed_domains = ['goubanjia.com']
-    # start_urls = ['http://www.goubanjia.com/free/']
     start_urls = ['http://www.goubanjia.com/free/index{}.shtml'.format(i) for i in range(1, 11)]
 
     def parse(self, response):
@@ -17,8 +15,7 @@ class GoubanjiaSpider(scrapy.Spider):
             for x in data :
                item = ProxyPoolItem()
                info = x.xpath('td')
-               ipport = (x.xpath('td[1]//*[name(.)!="p"]/text()').extract())
-               # print("ipport", ipport)
+               ipport = x.xpath('td[1]//*[name(.)!="p"]/text()').extract()
                item['ip'] =  "".join(ipport[:-1])
                item['protocol'] = info[1].xpath('string(.)').extract()
                item['port'] = ipport[-1]
