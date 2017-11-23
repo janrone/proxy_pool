@@ -7,7 +7,7 @@ from proxy_pool.items import ProxyPoolItem
 class XdailiSpider(scrapy.Spider):
     name = 'xdaili'
     allowed_domains = ['xdaili.cn']
-    start_urls = ['http://www.xdaili.cn/ipagent//freeip/getFreeIps?page=1&rows=10']
+    start_urls = ['http://www.xdaili.cn/ipagent/freeip/getFreeIps?page=1&rows=10']
 
     def parse(self, response):
         data = json.loads(response.body.decode('utf-8'))
